@@ -45,10 +45,24 @@ def deckPage(deck):
         print('(7) Add cards')
         print('(8) Back to decks list')
         cmd = input()
-        if cmd == 0:
+        if cmd == '0':
             study(deck)
-        if cmd == 1:
-            deck.reverse()
+        if cmd == '1':
+            deck.reverse = not deck.reverse
+        if cmd == '2':
+            self.studyType = 'All'
+        if cmd == '3':
+            self.studyType = 'Flag'
+        if cmd == '4':
+            self.studyType = 'NoFlag'
+        if cmd == '5':
+            self.studyType = 'Due'
+        if cmd == '6':
+            print('Enter a new name for the deck or enter .. to cancel')
+            name = input()
+            if name not == '..':
+                deck.name = name
+        if cmd == '7':
 
 class Deck:
     def __init__(self, name):
@@ -59,8 +73,6 @@ class Deck:
         
     def loadCards():
         self.cards = [card1, card2]
-    def reverse:
-        self.reverse = True
     
 
 deck = Deck("")
