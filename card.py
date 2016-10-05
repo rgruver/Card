@@ -63,6 +63,11 @@ def deckPage(deck):
             if name not == '..':
                 deck.name = name
         if cmd == '7':
+            print('Enter the new cards one at a time, first the front then the back or enter .. to go back to the deck menu')
+            card = input()
+            while card not == '..':
+                front
+
 
 class Deck:
     def __init__(self, name):
