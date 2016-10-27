@@ -1,11 +1,11 @@
-decks = []
+import datetime
 
 def start():
     while True:
         print('(0) Decks\n(1) Add Deck\n(2) Quit\n')
         cmd = input()
         if cmd == '0':
-            decks()
+            decks(loadDecks())
         elif cmd == '1':
             addDeck()
         elif cmd == '2':
@@ -13,21 +13,21 @@ def start():
         else:
             print('Bad input')
 
-def decks():
+def decks(decksList):
     while True:
-        decks = loadDecks()
-        for i in range(len(decks)):
-            print('('+str(i)+') '+decks[i].name)
+        for i in range(len(decksList)):
+            print('('+str(i)+') '+decksList[i].name)
         print('('+str(i+1)+') back')
         cmd = input()
         if int(cmd) <= i:
-            deckPage(decks[i])
-        if cmd == str(i+1):
+            deckPage(decksList[int(cmd)])
+        elif cmd == str(i+1):
             break
         else:
             print('Bad input')
 
 def loadDecks():
+    #Need to load from database
     return [Deck('Math'), Deck('dsfjkl'), Deck('sldkfj')]
 
 def deckPage(deck):
@@ -35,38 +35,54 @@ def deckPage(deck):
         print(deck.name)
         print('Reverse: '+str(deck.reverse))
         print('Study set: '+ deck.studyType)
+        print('Random: '+str(deck.random))
         print('(0) Study deck')
         print('(1) Reverse Deck')
         print('(2) Set deck to all cards')
         print('(3) Set deck to flagged cards only')
         print('(4) Set deck to unflagged cards only')
         print('(5) Set deck to cards due today only')
-        print('(6) Edit deck name')
-        print('(7) Add cards')
-        print('(8) Back to decks list')
+        print('(6) Shuffle on/off')
+        print('(7) Edit deck name')
+        print('(8) Add cards')
+        print('(9) Back to decks list')
         cmd = input()
         if cmd == '0':
             study(deck)
-        if cmd == '1':
+        elif cmd == '1':
             deck.reverse = not deck.reverse
-        if cmd == '2':
-            self.studyType = 'All'
-        if cmd == '3':
-            self.studyType = 'Flag'
-        if cmd == '4':
-            self.studyType = 'NoFlag'
-        if cmd == '5':
-            self.studyType = 'Due'
-        if cmd == '6':
+        elif cmd == '2':
+            deck.studyType = 'All'
+        elif cmd == '3':
+            deck.studyType = 'Flag'
+        elif cmd == '4':
+            deck.studyType = 'NoFlag'
+        elif cmd == '5':
+            deck.studyType = 'Due'
+        elif cmd == '6':
+            deck.random = not deck.random
+        elif cmd == '7':
             print('Enter a new name for the deck or enter .. to cancel')
             name = input()
-            if name not == '..':
+            if not name == '..':
                 deck.name = name
-        if cmd == '7':
+        elif cmd == '8':
             print('Enter the new cards one at a time, first the front then the back or enter .. to go back to the deck menu')
             card = input()
-            while card not == '..':
-                front
+            while not card == '..':
+                front = card
+                back = input()
+                deck.addCard(Card(front, back))
+                card = input()
+        elif cmd == '9':
+            break
+        else:
+            print('Bad input')
+
+def study(deck):
+    deck.loadCards()
+    cards = zip(deck.cards, range(len(cards)))
+    
 
 
 class Deck:
@@ -75,10 +91,19 @@ class Deck:
         self.cards = []
         self.reverse = False
         self.studyType = 'All'
-        
+        self.random = False        
     def loadCards():
+        #Load deck's cards from database
         self.cards = [card1, card2]
-    
+    def addCard(card):
+        self.cards.add(card)
+        #Add to database
 
-deck = Deck("")
+class Card:
+    def __init__(self, front, back):
+        self.front = front
+        self.back = back
+        self.due = datetime.date.today()+datetime.timedelta(days=1)
+
+
 start()
