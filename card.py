@@ -81,8 +81,32 @@ def deckPage(deck):
 
 def study(deck):
     deck.loadCards()
-    cards = zip(deck.cards, range(len(cards)))
-    
+    cards = []
+    for c in deck.cards:
+        if deck.studyType == 'Flag':
+            if c.flag:
+                cards.append(c)
+        elif deck.studyType == 'NoFlag':
+            if not c.flag:
+                cards.append(c)
+        elif deck.studyType == 'Due':
+            if c.due <= datetime.date.today():
+                cards.append(c)
+    if deck.studyType == 'All':
+        cards = list(deck.cards)
+    if deck.random:
+        shuffle(cards)
+    print('Enter F to flip a card, B to go back a card, or N to gobto the next card\nEnter 1, 2, or 3 to rate your knowledge of the card or 000 to reset the knowledge rating\nEnter E to edit the card or M to move the card to a different deck')
+    for c in cards:
+         if deck.reverse:
+             print(c.back)
+         else:
+             print(c.front)
+         cmd = input()
+         if cmd == '1':
+             card.rating
+         
+         
 
 
 class Deck:
@@ -92,10 +116,10 @@ class Deck:
         self.reverse = False
         self.studyType = 'All'
         self.random = False        
-    def loadCards():
+    def loadCards(self):
         #Load deck's cards from database
         self.cards = [card1, card2]
-    def addCard(card):
+    def addCard(self, card):
         self.cards.add(card)
         #Add to database
 
@@ -103,6 +127,7 @@ class Card:
     def __init__(self, front, back):
         self.front = front
         self.back = back
+        self.flag = False
         self.due = datetime.date.today()+datetime.timedelta(days=1)
 
 
