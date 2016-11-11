@@ -20,7 +20,7 @@ def decks(decksList):
         print('('+str(i+1)+') back')
         cmd = input()
         if int(cmd) <= i:
-            deckPage(decksList[int(cmd)])
+            deckPage(decksList, int(cmd))
         elif cmd == str(i+1):
             break
         else:
@@ -30,7 +30,8 @@ def loadDecks():
     #Need to load from database
     return [Deck('Math'), Deck('dsfjkl'), Deck('sldkfj')]
 
-def deckPage(deck):
+def deckPage(deckList, d):
+    deck = deckList[d]
     while True:
         print(deck.name)
         print('Reverse: '+str(deck.reverse))
@@ -96,18 +97,39 @@ def study(deck):
         cards = list(deck.cards)
     if deck.random:
         shuffle(cards)
-    print('Enter F to flip a card, B to go back a card, or N to gobto the next card\nEnter 1, 2, or 3 to rate your knowledge of the card or 000 to reset the knowledge rating\nEnter E to edit the card or M to move the card to a different deck')
-    for c in cards:
-         if deck.reverse:
-             print(c.back)
-         else:
-             print(c.front)
-         cmd = input()
-         if cmd == '1':
-             card.rating
-         
-         
+    print('Enter any key to flip the card')
+    print('Then enter B to go back a card, N to go to the next card, 1, 2, or 3 to rate your knowledge of the card or 000 to reset the knowledge rating\nEnter E to edit the card or M to move the card to a different deck')
+    for i in range(len(cards)):
+        c = cards[i]
+        if deck.reverse:
+            print(c.back)
+        else:
+            print(c.front)
+        cmd = input()
+        if deck.reverse:
+            print(c.front)
+        else:
+            print(c.back)
+        cmd = input()
+        if cmd == '1':
+            card.rating -= 1
+        elif cmd == '3':
+            card.rating += 1
+        elif cmd == '000':
+            card.rating = 0
+        elif cmd == 'B' or 'b':
+            i -= 2
+        elif cmd == 'M' or 'm':
 
+
+
+class Card:
+    def __init__(self, front, back, flag=False, due=datetime.date.today()+datetime.timedelta(days=1), rating=0):
+        self.front = front
+        self.back = back
+        self.flag = flag
+        self.due = due
+        self.rating = rating
 
 class Deck:
     def __init__(self, name):
@@ -117,18 +139,13 @@ class Deck:
         self.studyType = 'All'
         self.random = False        
     def loadCards(self):
-        #Load deck's cards from database
+        #Load deck's cards from database 
+        card1 = Card('1+1', '2')
+        card2 = Card('1+2', '3', True, datetime.date.today(), 1)
+
         self.cards = [card1, card2]
     def addCard(self, card):
-        self.cards.add(card)
+        self.cards.append(card)
         #Add to database
-
-class Card:
-    def __init__(self, front, back):
-        self.front = front
-        self.back = back
-        self.flag = False
-        self.due = datetime.date.today()+datetime.timedelta(days=1)
-
 
 start()
