@@ -1,17 +1,5 @@
 import datetime
 
-def start():
-    while True:
-        print('(0) Decks\n(1) Add Deck\n(2) Quit\n')
-        cmd = input()
-        if cmd == '0':
-            decks(loadDecks())
-        elif cmd == '1':
-            addDeck()
-        elif cmd == '2':
-            break
-        else:
-            print('Bad input')
 
 def decks(decksList):
     while True:
@@ -120,7 +108,7 @@ def study(deck):
         elif cmd == 'B' or 'b':
             i -= 2
         elif cmd == 'M' or 'm':
-
+            print('1')
 
 
 class Card:
@@ -133,6 +121,7 @@ class Card:
 
 class Deck:
     def __init__(self, name):
+#need to add defaults/input to constructor
         self.name = name
         self.cards = []
         self.reverse = False
@@ -148,4 +137,15 @@ class Deck:
         self.cards.append(card)
         #Add to database
 
-start()
+decklist = loadDecks()
+while True:
+    print('(0) Decks\n(1) Add Deck\n(2) Quit\n')
+    cmd = input()
+    if cmd == '0':
+        decks(deckList)
+    elif cmd == '1':
+        addDeck()
+    elif cmd == '2':
+        break
+    else:
+        print('Bad input')
