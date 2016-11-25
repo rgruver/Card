@@ -131,7 +131,6 @@ class Deck:
         #Load deck's cards from database 
         card1 = Card('1+1', '2')
         card2 = Card('1+2', '3', True, datetime.date.today(), 1)
-
         self.cards = [card1, card2]
     def addCard(self, card):
         self.cards.append(card)
